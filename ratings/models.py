@@ -5,6 +5,7 @@ from django.db import connection, models
 from django.db.models.query import QuerySet
 from django.template.defaultfilters import slugify
 from django.utils.hashcompat import sha_constructor
+from django.db.models import Avg
 
 from ratings.utils import get_content_object_field, is_gfk, recommended_items
 
@@ -249,7 +250,7 @@ class _RatingsDescriptor(models.Manager):
     def recommended_items(self, user):
         return recommended_items(self.all(), user)
     
-    def order_by_rating(self, aggregator=models.Sum, descending=True, 
+    def order_by_rating(self, aggregator=models.Avg, descending=True, 
                         queryset=None, alias='score'):
         return self.all().order_by_rating(
             aggregator, descending, queryset, alias
